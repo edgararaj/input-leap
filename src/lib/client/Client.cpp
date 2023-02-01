@@ -74,6 +74,11 @@ Client::Client(IEventQueue* events, const std::string& name, const NetworkAddres
     assert(m_socketFactory != nullptr);
     assert(m_screen != nullptr);
 
+    m_events->add_handler(EventType::KEY_STATE_KEY_DOWN, get_event_target(),
+                          [this](const auto& e){ 
+                            LOG ((CLOG_INFO "--------olaaaaaaaaaa")); 
+                            m_server->handle_key_down_event(e);
+                            });
     // register suspend/resume event handlers
     m_events->add_handler(EventType::SCREEN_SUSPEND, get_event_target(),
                           [this](const auto& e){ handle_suspend(); });
@@ -226,6 +231,7 @@ void Client::getCursorPos(std::int32_t& x, std::int32_t& y) const
 
 void Client::enter(std::int32_t xAbs, std::int32_t yAbs, std::uint32_t, KeyModifierMask mask, bool)
 {
+    LOG ((CLOG_INFO "%d %d %d %d", m_screen->m_isPrimary, m_screen->m_enabled, m_screen->m_entered, m_screen->m_fakeInput));
     m_active = true;
     m_screen->mouseMove(xAbs, yAbs);
     m_screen->enter(mask);

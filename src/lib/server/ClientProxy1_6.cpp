@@ -215,6 +215,7 @@ bool ClientProxy1_6::parseHandshakeMessage(const std::uint8_t* code)
 
 bool ClientProxy1_6::parseMessage(const std::uint8_t* code)
 {
+    LOG ((CLOG_INFO "---------222ola"));
     if (memcmp(code, kMsgDFileTransfer, 4) == 0) {
         fileChunkReceived();
         return true;
@@ -242,6 +243,10 @@ bool ClientProxy1_6::parseMessage(const std::uint8_t* code)
     }
     else if (memcmp(code, kMsgDClipboard, 4) == 0) {
         return recvClipboard();
+    }
+    else if (memcmp(code, kMsgDKeyDown, 4) == 0) {
+        handle_key_down_event();
+        return true;
     }
     return false;
 }
@@ -535,6 +540,29 @@ void ClientProxy1_6::dragInfoReceived()
     ProtocolUtil::readf(getStream(), kMsgDDragInfo + 4, &fileNum, &content);
 
     m_server->dragInfoReceived(fileNum, content);
+}
+
+void ClientProxy1_6::handle_key_down_event()
+{
+    // get mouse up to date
+    // flushCompressedMouse();
+
+    // parse
+    std::uint16_t id, mask, button;
+    ProtocolUtil::readf(getStream(), kMsgDKeyDown + 4, &id, &mask, &button);
+    LOG((CLOG_INFO "recv key down id=0x%08x, mask=0x%04x, button=0x%04x", id, mask, button));
+
+    m_server->keyDown(id, mask, button);
+    // // translate
+    // KeyID id2             = translateKey(static_cast<KeyID>(id));
+    // KeyModifierMask mask2 = translateModifierMask(
+    //                             static_cast<KeyModifierMask>(mask));
+    // if (id2   != static_cast<KeyID>(id) ||
+    //     mask2 != static_cast<KeyModifierMask>(mask))
+    //     LOG((CLOG_DEBUG1 "key down translated to id=0x%08x, mask=0x%04x", id2, mask2));
+
+    // // forward
+    // m_server->keyDown(id2, mask2, button);
 }
 
 ClientProxy1_6::ClientClipboard::ClientClipboard() :

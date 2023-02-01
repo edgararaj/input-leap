@@ -543,7 +543,7 @@ std::unique_ptr<IPlatformScreen> ClientApp::create_platform_screen()
 #endif
 #if WINAPI_XWINDOWS
     if (args().use_x11) {
-        return std::make_unique<XWindowsScreen>(new XWindowsImpl(), args().m_display, false,
+        return std::make_unique<XWindowsScreen>(new XWindowsImpl(), args().m_display, true,
                                                 args().m_yscroll, m_events);
     }
 #endif

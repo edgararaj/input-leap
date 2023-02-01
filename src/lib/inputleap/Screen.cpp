@@ -101,7 +101,7 @@ Screen::disable()
 void
 Screen::enter(KeyModifierMask toggleMask)
 {
-    assert(m_entered == false);
+    //assert(m_entered == false);
     LOG((CLOG_INFO "entering screen"));
 
     // now on screen
@@ -217,7 +217,7 @@ Screen::mouseUp(ButtonID button)
 
 void Screen::mouseMove(std::int32_t x, std::int32_t y)
 {
-    assert(!m_isPrimary);
+    //assert(!m_isPrimary);
     m_screen->fakeMouseMove(x, y);
 }
 

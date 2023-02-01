@@ -128,7 +128,7 @@ Server::Server(
                           [this](const auto& e){ handle_button_up_event(e); });
     m_events->add_handler(EventType::PRIMARY_SCREEN_MOTION_ON_PRIMARY,
                           m_primaryClient->get_event_target(),
-                          [this](const auto& e){ handle_motion_primary_event(e); });
+                          [this](const auto& e){ handle_motion_primary_event(e); });;
     m_events->add_handler(EventType::PRIMARY_SCREEN_MOTION_ON_SECONDARY,
                           m_primaryClient->get_event_target(),
                           [this](const auto& e){ handle_motion_secondary_event(e); });
@@ -2240,6 +2240,11 @@ void Server::dragInfoReceived(std::uint32_t fileNum, std::string content)
 	DragInformation::parseDragInfo(m_fakeDragFileList, fileNum, content);
 
 	m_screen->startDraggingFiles(m_fakeDragFileList);
+}
+
+void Server::keyDown(KeyID id, KeyModifierMask mask, KeyButton button)
+{
+    onKeyDown(id, mask, button, nullptr);
 }
 
 } // namespace inputleap

@@ -154,6 +154,8 @@ public:
     //! Received dragging information from client
     void dragInfoReceived(std::uint32_t fileNum, std::string content);
 
+    void keyDown(KeyID id, KeyModifierMask mask, KeyButton button);
+
     //! Store ClientListener pointer
     void setListener(ClientListener* p) { m_clientListener = p; }
 

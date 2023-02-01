@@ -313,7 +313,7 @@ protected:
     void leavePrimary();
     void leaveSecondary();
 
-private:
+public:
     // our platform dependent screen
     std::unique_ptr<IPlatformScreen> m_screen;
 

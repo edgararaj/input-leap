@@ -81,6 +81,8 @@ protected:
     void fileChunkReceived();
     void dragInfoReceived();
 
+    void handle_key_down_event();
+
 private:
     void disconnect();
     void remove_handlers();

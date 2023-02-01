@@ -1373,7 +1373,7 @@ XWindowsScreen::handle_system_event(const Event& event)
 void
 XWindowsScreen::onKeyPress(XKeyEvent& xkey)
 {
-	LOG((CLOG_DEBUG1 "event: KeyPress code=%d, state=0x%04x", xkey.keycode, xkey.state));
+	LOG((CLOG_INFO "event: KeyPress code=%d, state=0x%04x", xkey.keycode, xkey.state));
 	const KeyModifierMask mask = m_keyState->mapModifiersFromX(xkey.state);
 	KeyID key                  = mapKeyFromX(&xkey);
 	if (key != kKeyNone) {

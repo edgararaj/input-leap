@@ -59,6 +59,7 @@ public:
 
     // sending dragging information to server
     void sendDragInfo(std::uint32_t fileCount, const char* info, size_t size);
+    void handle_key_down_event(const Event& event);
 
 #ifdef INPUTLEAP_TEST_ENV
     void handleDataForTest() { handleData(Event(), nullptr); }

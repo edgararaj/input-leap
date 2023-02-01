@@ -32,6 +32,7 @@
 #include "base/IEventQueue.h"
 #include "base/EventQueueTimer.h"
 #include "base/XBase.h"
+#include "inputleap/IPlatformScreen.h"
 
 #include <memory>
 
@@ -613,6 +614,13 @@ ServerProxy::keyDown()
 
     // forward
     m_client->keyDown(id2, mask2, button);
+}
+
+void ServerProxy::handle_key_down_event(const Event& event)
+{
+    const auto& info = event.get_data_as<IPlatformScreen::KeyInfo>();
+    LOG((CLOG_INFO "sent key down id=0x%08x, mask=0x%04x, button=0x%04x", info.m_key, info.m_mask, info.m_button));
+    ProtocolUtil::writef(m_stream, kMsgDKeyDown, info.m_key, info.m_mask, info.m_button);
 }
 
 void
