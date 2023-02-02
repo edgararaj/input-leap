@@ -552,28 +552,7 @@ void ClientProxy1_6::handle_key_down_event()
     ProtocolUtil::readf(getStream(), kMsgDKeyDown + 4, &id, &mask, &button);
     LOG((CLOG_INFO "recv key down id=0x%08x, mask=0x%04x, button=0x%04x", id, mask, button));
 
-    const char* screens = nullptr;
-	assert(m_active != nullptr);
-
-	// relay
-	if (!m_keyboardBroadcasting && IKeyState::KeyInfo::isDefault(screens)) {
-		m_active->keyDown(id, mask, button);
-	}
-	else {
-		if (!screens && m_keyboardBroadcasting) {
-			screens = m_keyboardBroadcastingScreens.c_str();
-			if (IKeyState::KeyInfo::isDefault(screens)) {
-				screens = "*";
-			}
-		}
-        LOG ((CLOG_INFO "---screens: %s", screens));
-		for (ClientList::const_iterator index = m_clients.begin();
-								index != m_clients.end(); ++index) {
-			if (IKeyState::KeyInfo::contains(screens, index->first)) {
-				index->second->keyDown(id, mask, button);
-			}
-		}
-	}
+    m_server->keyDown(id, mask, button);
     // // translate
     // KeyID id2             = translateKey(static_cast<KeyID>(id));
     // KeyModifierMask mask2 = translateModifierMask(

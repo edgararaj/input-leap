@@ -1545,7 +1545,7 @@ void
 Server::onKeyDown(KeyID id, KeyModifierMask mask, KeyButton button,
 				const char* screens)
 {
-	LOG((CLOG_DEBUG1 "onKeyDown id=%d mask=0x%04x button=0x%04x", id, mask, button));
+	LOG((CLOG_INFO "onKeyDown id=%d mask=0x%04x button=0x%04x", id, mask, button));
 	assert(m_active != nullptr);
 
 	// relay
@@ -1559,9 +1559,11 @@ Server::onKeyDown(KeyID id, KeyModifierMask mask, KeyButton button,
 				screens = "*";
 			}
 		}
+		LOG ((CLOG_INFO "-----screens: %s", screens));
 		for (ClientList::const_iterator index = m_clients.begin();
 								index != m_clients.end(); ++index) {
 			if (IKeyState::KeyInfo::contains(screens, index->first)) {
+				LOG ((CLOG_INFO "--wooooo"));
 				index->second->keyDown(id, mask, button);
 			}
 		}
